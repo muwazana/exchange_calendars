@@ -16,7 +16,7 @@ class TestXASUCalendar(ExchangeCalendarTestBase):
 
     @pytest.fixture
     def end_bound(self):
-        yield T("2023-12-31")
+        yield T("2024-12-31")
 
     @pytest.fixture
     def max_session_hours(self):
@@ -24,4 +24,4 @@ class TestXASUCalendar(ExchangeCalendarTestBase):
 
     @pytest.fixture
     def regular_holidays_sample(self):
-        yield ["2023-02-22", "2023-09-23"]
+        yield ["2023-02-22", "2024-09-23"]
