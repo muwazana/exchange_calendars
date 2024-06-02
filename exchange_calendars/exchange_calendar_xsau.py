@@ -13,6 +13,16 @@ NationalDayOfSaudiArabia = Holiday("National Day of Saudi Arabia", month=9, day=
 
 EidAlAdhaHoliday = pd.to_datetime(
     [
+        "2024-06-14",
+        "2024-06-15",
+        "2024-06-16",
+        "2024-06-16",
+        "2024-06-17",
+        "2024-06-18",
+        "2024-06-19",
+        "2024-06-20",
+        "2024-06-21",
+        "2024-06-22",
         "2023-06-27",
         "2023-06-28",
         "2023-06-29",
@@ -38,6 +48,15 @@ EidAlAdhaHoliday = pd.to_datetime(
 
 EidAlFiterHoliday = pd.to_datetime(
     [
+        "2024-04-05",
+        "2024-04-06",
+        "2024-04-07",
+        "2024-04-08",
+        "2024-04-09",
+        "2024-04-10",
+        "2024-04-11",
+        "2024-04-12",
+        "2024-04-13",
         "2023-04-18",
         "2023-04-19",
         "2023-04-20",
@@ -92,13 +111,13 @@ class XSAUExchangeCalendar(ExchangeCalendar):
 
     @classmethod
     def bound_max(cls) -> pd.Timestamp:
-        return pd.Timestamp("2023-12-31")
+        return pd.Timestamp("2024-12-31")
 
     def _bound_max_error_msg(self, end: pd.Timestamp) -> str:
         msg = super()._bound_min_error_msg(end)
         return (
             msg
-            + f"(The exchange {self.name} does not have complete holidays beyond 2023.)"
+            + f"(The exchange {self.name} does not have complete holidays beyond 2024.)"
         )
 
     @property
