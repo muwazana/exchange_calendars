@@ -1,3 +1,4 @@
+import sys
 import click
 import pandas as pd
 from datetime import datetime
@@ -28,4 +29,4 @@ def check_holiday(date, exchange):
 
 
 if __name__ == "__main__":
-    check_holiday()
+    sys.exit(check_holiday())
