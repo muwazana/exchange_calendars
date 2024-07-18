@@ -1,12 +1,138 @@
 # exchange_calendars
-
 [![PyPI](https://img.shields.io/pypi/v/exchange-calendars)](https://pypi.org/project/exchange-calendars/) ![Python Support](https://img.shields.io/pypi/pyversions/exchange_calendars) ![PyPI Downloads](https://img.shields.io/pypi/dd/exchange-calendars) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 A Python library for defining and querying calendars for security exchanges.
 
 Calendars for more than [50 exchanges](#Calendars) available out-the-box! If you still can't find the calendar you're looking for, [create a new one](#How-can-I-create-a-new-calendar)!
 
-## Installation
+## Building the Library for Internal Usage
+
+To build the `exchange_calendars` library for internal usage based on the made customization, follow these steps:
+
+### Prerequisites
+
+Make sure you have the following installed on the server to build the library, could be srv-04:
+- Python
+- pip
+- setuptools
+- wheel
+
+Also, we need two resources from AWS services:
+- S3 bucket to store the custom package, the bucket policy should allow only enable downloading objects from Wamid IP which is (87.101.165.147/32).
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::mwz-py-packages/*",
+            "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": "87.101.165.147/32"
+                }
+            }
+        }
+    ]
+}
+```
+
+- IAM user credentials to access the previously created S3 bucket, the IAM user policy should allow us to s3:GetObject & s3:PutObject.
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::mwz-py-packages/*",
+                "arn:aws:s3:::mwz-py-packages"
+            ]
+        }
+    ]
+}
+```
+
+### Steps to Build
+
+1. **Clone the Repository:**
+
+   ```bash
+   #SSH to ruh-srv-04
+   cd /homw/mwz
+   mkdir mwz_exchange_lib
+   cd mwz_exchange_lib
+   git clone https://github.com/muwazana/exchange_calendars.git
+   cd exchange_calendars
+
+2. **Build the Library:**
+
+   ```bash
+   cd exchange_calendars
+
+   #Create a virtual environment 
+   python -m venv build_env
+   source build_env/bin/activate
+   pip install --upgrade pip setuptools wheel
+
+   #Now we need to install awscli as the package will be moved to S3
+   pip install awscli
+
+   #Now use the Access Keys credentials of the IAM user "s3-py-packages"
+   aws configure
+   python setup.py sdist bdist_wheel
+
+   #Now go to dits directory where the resulted package will be stored, the version of the package is based on the version defined in set-up.py file.
+   cd dist
+   ls
+
+   #Now copy the files to S3, change the command based on the version you want to copy its files. The S3 bucket name is "mwz-py-packages".
+   aws s3 cp exchange_calendars-0.1-py3-none-any.whl s3://mwz-py-packages/exchange-calendars/exchange_calendars-0.1-py3-none-any.whl
+
+   aws s3 cp exchange_calendars-0.1.tar.gz s3://mwz-py-packages/exchange-calendars/exchange_calendars-0.1.tar.gz
+
+   #Now, deactvate the virtual environment.
+   deactivate
+
+2. **Testing the Library:**
+   ```bash
+   cd /home/mwz/mwz_exchange_lib/exchange_calendars
+   #Create a virtual environment for testing 
+   python -m venv test_env
+   source test_env/bin/activate
+
+   #Install the custom lib based on the version you need:
+   pip install https://mwz-py-packages.s3.me-south-1.amazonaws.com/exchange-calendars/exchange_calendars-0.1-py3-none-any.whl
+   
+   cat > calendar_names.py <<EOF
+   import exchange_calendars as ecals
+
+   # Get a list of available exchange calendar names
+   calendar_names = ecals.get_calendar_names()
+
+   # Print the list of calendar names
+   print("Available Exchange Calendars:")
+   for name in calendar_names:
+       print(name)
+   EOF
+   
+   #Now try to run the python code
+   python calendar_names.py
+
+   #Now, deactvate the virtual environment.
+   deactivate
+
+#
+#
+## Installation for the main source package 
 
 ```bash
 $ pip install exchange_calendars
