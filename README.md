@@ -88,9 +88,14 @@ Also, we need two resources from AWS services:
 
    #Now use the Access Keys credentials of the IAM user "s3-py-packages"
    aws configure
+
+   #Build the package by running the setup.py, !!pay attention to update the version if you need to publish new version.
+   #For example, updating the scripts from the current version 0.2 to 0.3
+   sed -i "s/version='0.2'/version='0.3'/" setup.py
+
    python setup.py sdist bdist_wheel
 
-   #Now go to dits directory where the resulted package will be stored, the version of the package is based on the version defined in set-up.py file.
+   #Now go to dits directory where the resulted package will be stored, the version of the package is based on the version defined in setup.py file.
    cd dist
    ls
 
