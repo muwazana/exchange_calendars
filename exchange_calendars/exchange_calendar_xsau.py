@@ -111,13 +111,13 @@ class XSAUExchangeCalendar(ExchangeCalendar):
 
     @classmethod
     def bound_max(cls) -> pd.Timestamp:
-        return pd.Timestamp("2024-12-31")
+        return pd.Timestamp("2025-12-31")
 
     def _bound_max_error_msg(self, end: pd.Timestamp) -> str:
         msg = super()._bound_min_error_msg(end)
         return (
             msg
-            + f"(The exchange {self.name} does not have complete holidays beyond 2024.)"
+            + f"(The exchange {self.name} does not have complete holidays beyond 2025.)"
         )
 
     @property
