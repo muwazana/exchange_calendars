@@ -7,6 +7,12 @@ Calendars for more than [50 exchanges](#Calendars) available out-the-box! If you
 
 ## Building the Library for Internal Usage
 
+_TLDR:_
+- `check_trading_day.py` script >> This is deployed to to both trading, dev, storageservers.
+- `exchange_calendars` package: built manually, and the build and deploy process to S3 is documented here
+https://github.com/muwazana/exchange_calendars/blob/master/README.md#building-the-library-for-internal-usage
+It is then deployed using this playbook: https://github.com/muwazana/live_infra/blob/dac1f531f391ffb08ccdef85182b17090fb2fcd0/servers/install/install-packages.yml#L89C1-L90C1
+
 To build the `exchange_calendars` library for internal usage based on the made customization, follow these steps:
 
 ### Prerequisites
