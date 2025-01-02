@@ -96,8 +96,9 @@ Also, we need two resources from AWS services:
    aws configure
 
    #Build the package by running the setup.py, !!pay attention to update the version if you need to publish new version.
-   #For example, updating the scripts from the current version 0.2 to 0.3
-   sed -i "s/version='0.2'/version='0.3'/" setup.py
+   #The latest version currently is 0.3
+   #For example, updating the scripts from the current version 0.3 to 0.4
+   sed -i "s/version='0.3'/version='0.4'/" setup.py
 
    python setup.py sdist bdist_wheel
 
@@ -105,10 +106,10 @@ Also, we need two resources from AWS services:
    cd dist
    ls
 
-   #Now copy the files to S3, change the command based on the version you want to copy its files. The S3 bucket name is "mwz-py-packages".
-   aws s3 cp exchange_calendars-0.1-py3-none-any.whl s3://mwz-py-packages/exchange-calendars/exchange_calendars-0.1-py3-none-any.whl
+   #Now copy the files to S3, change the command based on the version you want to copy its files. The S3 bucket name is "mwz-py-packages" and pay attention to the version.
+   aws s3 cp exchange_calendars-0.3-py3-none-any.whl s3://mwz-py-packages/exchange-calendars/exchange_calendars-0.3-py3-none-any.whl
 
-   aws s3 cp exchange_calendars-0.1.tar.gz s3://mwz-py-packages/exchange-calendars/exchange_calendars-0.1.tar.gz
+   aws s3 cp exchange_calendars-0.3.tar.gz s3://mwz-py-packages/exchange-calendars/exchange_calendars-0.3.tar.gz
 
    #Now, deactvate the virtual environment.
    deactivate
@@ -121,7 +122,7 @@ Also, we need two resources from AWS services:
    source test_env/bin/activate
 
    #Install the custom lib based on the version you need:
-   pip install https://mwz-py-packages.s3.me-south-1.amazonaws.com/exchange-calendars/exchange_calendars-0.1-py3-none-any.whl
+   pip install https://mwz-py-packages.s3.me-south-1.amazonaws.com/exchange-calendars/exchange_calendars-0.3-py3-none-any.whl
    
    cat > calendar_names.py <<EOF
    import exchange_calendars as ecals
